@@ -1,19 +1,19 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-# from sklearn.model_selection import ShuffleSplit
-# from sklearn import preprocessing
-# from sklearn.impute import SimpleImputer
-# from sklearn.model_selection import KFold
-# from sklearn.linear_model import LinearRegression
-# import matplotlib.pyplot as plt
-# from sklearn.decomposition import PCA
-# from sklearn import linear_model
-# from sklearn.model_selection import GridSearchCV
-# from sklearn.neural_network import MLPRegressor
-# from sklearn.preprocessing import scale
-# from sklearn.model_selection import StratifiedShuffleSplit
-# from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import ShuffleSplit
+from sklearn import preprocessing
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import KFold
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn import linear_model
+from sklearn.model_selection import GridSearchCV
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import scale
+from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.preprocessing import StandardScaler
 import time
 import math
 
@@ -22,25 +22,25 @@ st.set_page_config(page_title="Predict")
 user_inputs = st.container()
 result = st.container()
 
-# census_2016 = pd.read_sas("C:/Users/VTech/CTP/spm_pu_2016.sas7bdat")
+census_2016 = pd.read_sas("C:/Users/VTech/CTP/spm_pu_2016.sas7bdat")
 
-# split_census = ShuffleSplit(n_splits=1, random_state=237, test_size=0.20, train_size=None)
-# for train_index, test_index in split_census.split(census_2016, census_2016['agi']):
-#     census_train_set = census_2016.iloc[train_index]
-#     census_test_set = census_2016.iloc[test_index]   
+split_census = ShuffleSplit(n_splits=1, random_state=237, test_size=0.20, train_size=None)
+for train_index, test_index in split_census.split(census_2016, census_2016['agi']):
+    census_train_set = census_2016.iloc[train_index]
+    census_test_set = census_2016.iloc[test_index]   
 
-# census_X_train = census_train_set.drop('agi', axis=1)
-# census_y_train = census_train_set['agi']
+census_X_train = census_train_set.drop('agi', axis=1)
+census_y_train = census_train_set['agi']
 
-# census_X_test = census_test_set.drop('agi', axis=1)
-# census_y_test = census_test_set['agi'] 
+census_X_test = census_test_set.drop('agi', axis=1)
+census_y_test = census_test_set['agi'] 
    
-# lin_reg = LinearRegression()
-# lin_reg.fit(census_X_train, census_y_train)
+lin_reg = LinearRegression()
+lin_reg.fit(census_X_train, census_y_train)
 
-# v_df = pd.DataFrame(columns=test_census.columns)
-# v_df.loc[1] = [66.0, 2.0, 1.0, 3.0, 47.0, 1.0]
-# pred = lin_reg.predict(v_df)
+v_df = pd.DataFrame(columns=test_census.columns)
+v_df.loc[1] = [66.0, 2.0, 1.0, 3.0, 47.0, 1.0]
+pred = lin_reg.predict(v_df)
 
 with user_inputs:
     st.title("Predict")
