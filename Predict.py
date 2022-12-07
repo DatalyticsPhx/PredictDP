@@ -14,33 +14,46 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import scale
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestRegressor
 import time
 import math
+
+@st.cache
+def pipeline(clf):
+    # @st.cache ?
+    census_df = pd.read_csv('https://drive.google.com/uc?id=1WRRikGZ_DCgioxm1NGORp7xa4itHRVcc&confirm=t&uuid=50742ec4-25a5-4196-b54e-38ea28882b71&at=AHV7M3cQOatyBQ8YtVlVBcNOSBX2:1670427300799')
+    
+    # Split 1: 80% Training, 20% Test
+    split_census = ShuffleSplit(n_splits=1, random_state=237, test_size=0.20, train_size=None)
+    for train_index, test_index in split_census.split(census_df, census_df['spm_resources']):
+        census_train_set = census_df.iloc[train_index]
+        census_test_set = census_df.iloc[test_index]   
+
+    # Now we split the training set(80%) into a training set(60%) and validation set (20%)
+    # Split 2: 60% Test; 20% Validation 
+    split_census_2 = ShuffleSplit(n_splits=1, random_state=237, test_size=0.25, train_size=None)
+    for train_index_6, validation_index in split_census_2.split(census_train_set, census_train_set['spm_resources']):
+        census_train_set_6 = census_train_set.iloc[train_index_6]
+        census_validation_set = census_train_set.iloc[validation_index] 
+
+    census_X_train = census_train_set_6.drop('spm_resources', axis=1)
+    census_y_train = census_train_set_6['spm_resources']
+
+    census_X_valid = census_validation_set.drop('spm_resources', axis=1)
+    census_y_valid = census_validation_set['spm_resources']
+
+    census_X_test = census_test_set.drop('spm_resources', axis=1)
+    census_y_test = census_test_set['spm_resources']
+    
+    clf.fit(census_X_train, census_y_train)
+    return clf
+
+#----------------------------------------------------------------
 
 st.set_page_config(page_title="Predict")
 
 user_inputs = st.container()
 result = st.container()
-
-census_2016 = pd.read_sas("C:/Users/VTech/CTP/spm_pu_2016.sas7bdat")
-
-split_census = ShuffleSplit(n_splits=1, random_state=237, test_size=0.20, train_size=None)
-for train_index, test_index in split_census.split(census_2016, census_2016['agi']):
-    census_train_set = census_2016.iloc[train_index]
-    census_test_set = census_2016.iloc[test_index]   
-
-census_X_train = census_train_set.drop('agi', axis=1)
-census_y_train = census_train_set['agi']
-
-census_X_test = census_test_set.drop('agi', axis=1)
-census_y_test = census_test_set['agi'] 
-   
-lin_reg = LinearRegression()
-lin_reg.fit(census_X_train, census_y_train)
-
-v_df = pd.DataFrame(columns=test_census.columns)
-v_df.loc[1] = [66.0, 2.0, 1.0, 3.0, 47.0, 1.0]
-pred = lin_reg.predict(v_df)
 
 with user_inputs:
     st.title("Predict")
@@ -110,7 +123,9 @@ with user_inputs:
 
 
 with result:
-    # st.title("Predicted income:" + str(pred))
-    #usuable_age, usuable_sex, usuable_marital, usuable_marital, usuable_education, usuable_state, usuable_race are the usuable variables!
-    st.title("Predicted income:")
-    st.text(f"{usuable_age} | {usuable_sex} | {usuable_marital} | {usuable_education} | {usuable_state} | {usuable_race}")
+    # rf_model = RandomForestRegressor(random_state=23717125, verbose=2, n_jobs=8, max_depth=23, n_estimators=200)    
+    lin_reg = LinearRegression()
+    v_df = pd.DataFrame(columns=['age', 'sex', 'mar', 'education', 'st', 'race'])
+    v_df.loc[1] = [usuable_age, usuable_sex, usuable_marital, usuable_education, usuable_state, usuable_race]
+    income_prediction = pipeline(lin_reg).predict(v_df)
+    st.title("Predicted income: $%.2f" % income_prediction[0])
