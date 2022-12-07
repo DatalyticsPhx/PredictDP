@@ -128,4 +128,4 @@ with result:
     v_df = pd.DataFrame(columns=['age', 'sex', 'mar', 'education', 'st', 'race'])
     v_df.loc[1] = [usuable_age, usuable_sex, usuable_marital, usuable_education, usuable_state, usuable_race]
     income_prediction = pipeline(lin_reg).predict(v_df)
-    st.title("Predicted income: $%.2f" % income_prediction[0])
+    st.title("Predicted income: $%.2f" % income_prediction)
