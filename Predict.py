@@ -63,7 +63,7 @@ with user_inputs:
     marital_stat, ed_level = st.columns(2)
     state, race = st.columns(2)
 
-    user_age = age_col.number_input("Age:",min_value=21, max_value=67, value=20, step=1)
+    user_age = age_col.number_input("Age:",min_value=21, max_value=67, value=21, step=1)
     user_sex = sex_col.selectbox("Sex:", ("Male", "Female"))
     user_marital = marital_stat.selectbox("Marital Status:", 
         ("Married", 
