@@ -18,7 +18,7 @@ from sklearn.ensemble import RandomForestRegressor
 import time
 import math
 
-@st.cache
+@st.cache(allow_output_mutation=True)
 def pipeline(clf):
     # @st.cache ?
     census_df = pd.read_csv('https://drive.google.com/uc?id=1WRRikGZ_DCgioxm1NGORp7xa4itHRVcc&confirm=t&uuid=50742ec4-25a5-4196-b54e-38ea28882b71&at=AHV7M3cQOatyBQ8YtVlVBcNOSBX2:1670427300799')
@@ -47,6 +47,8 @@ def pipeline(clf):
     
     clf.fit(census_X_train, census_y_train)
     return clf
+
+
 
 #----------------------------------------------------------------
 
@@ -123,9 +125,9 @@ with user_inputs:
 
 
 with result:
-    # rf_model = RandomForestRegressor(random_state=23717125, verbose=2, n_jobs=8, max_depth=23, n_estimators=200)    
-    lin_reg = LinearRegression()
+    rf_model = RandomForestRegressor(random_state=23717125, verbose=2, n_jobs=8, max_depth=23, n_estimators=100)    
+    #lin_reg = LinearRegression()
     v_df = pd.DataFrame(columns=['age', 'sex', 'mar', 'education', 'st', 'race'])
     v_df.loc[1] = [usuable_age, usuable_sex, usuable_marital, usuable_education, usuable_state, usuable_race]
-    income_prediction = pipeline(lin_reg).predict(v_df)
-    st.title("Predicted income: $%.2f" % income_prediction)
+    income_prediction = pipeline(rf_model).predict(v_df)
+    st.title("Predicted income: $%.2f" % income_prediction[0])
