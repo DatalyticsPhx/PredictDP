@@ -1,22 +1,22 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+# import numpy as np
 from sklearn.model_selection import ShuffleSplit
-from sklearn import preprocessing
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import KFold
-from sklearn.linear_model import LinearRegression
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from sklearn import linear_model
-from sklearn.model_selection import GridSearchCV
-from sklearn.neural_network import MLPRegressor
-from sklearn.preprocessing import scale
-from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.preprocessing import StandardScaler
+# from sklearn import preprocessing
+# from sklearn.impute import SimpleImputer
+# from sklearn.model_selection import KFold
+# from sklearn.linear_model import LinearRegression
+# import matplotlib.pyplot as plt
+# from sklearn.decomposition import PCA
+# from sklearn import linear_model
+# from sklearn.model_selection import GridSearchCV
+# from sklearn.neural_network import MLPRegressor
+# from sklearn.preprocessing import scale
+# from sklearn.model_selection import StratifiedShuffleSplit
+# from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
-import time
-import math
+# import time
+# import math
 
 @st.cache(allow_output_mutation=True)
 def pipeline(clf):
@@ -30,7 +30,7 @@ def pipeline(clf):
         census_test_set = census_df.iloc[test_index]   
 
     # Now we split the training set(80%) into a training set(60%) and validation set (20%)
-    # Split 2: 60% Test; 20% Validation 
+    # Split 2: 60% Test; 20% Validation
     split_census_2 = ShuffleSplit(n_splits=1, random_state=237, test_size=0.25, train_size=None)
     for train_index_6, validation_index in split_census_2.split(census_train_set, census_train_set['spm_resources']):
         census_train_set_6 = census_train_set.iloc[train_index_6]
